@@ -3,35 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Algo muy especial para ti... ❤️</title>
+  <title>Hola, Nai ❤️</title>
   
   <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+  <!-- Google Fonts: Fuentes Retro y Cursiva Groovy -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Paytone+One&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg-color: #f7f1e5;
-      --card-bg: #fffcf7;
-      --pink-primary: #e8a598;
-      --pink-hover: #d89386;
-      --soft-rose: #f4e3df;
-      --dark-text: #4a3b32;
-      --subtext: #8c7a6b;
-      --cream-border: #ebdcd5;
-      --gold-accent: #d4af37;
+      --bg-pink-light: #fbebee;
+      --pink-retro: #e85a71;
+      --pink-title: #eb5e8d;
+      --purple-btn: #cbbeff;
+      --purple-btn-shadow: #2c2543;
+      --dark-text: #d93d59;
+      --subtext-red: #c93b2b;
+      --cream-bg: #fffcf7;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: linear-gradient(135deg, #f7f1e5 0%, #eee3d3 100%);
-      color: var(--dark-text);
+      background: radial-gradient(circle at center, #fce8f0 0%, #f7d5e4 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -40,6 +42,7 @@
       padding: 15px;
       overflow: hidden;
       position: relative;
+      font-family: 'Fredoka', 'Paytone One', sans-serif;
     }
 
     /* Animación sutil de lluvia */
@@ -54,47 +57,51 @@
 
     .drop {
       position: absolute;
-      background: rgba(180, 200, 220, 0.5);
-      width: 1px;
-      height: 15px;
+      background: rgba(232, 90, 113, 0.4);
+      width: 2px;
+      height: 18px;
       animation: fall 0.8s linear infinite;
     }
 
     @keyframes fall {
-      to { transform: translateY(600px); }
+      to { transform: translateY(620px); }
     }
 
-    /* Escenario MÓVIL (Tarjeta) */
+    /* Escenario MÓVIL con Patrón de Ajedrez Ondulado Retro */
     .scene {
       width: 100%;
       max-width: 380px;
       height: 620px;
       position: relative;
       overflow: hidden;
-      border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(90, 70, 60, 0.15);
-      border: 1px solid var(--cream-border);
-      background-color: var(--card-bg);
+      border-radius: 28px;
+      box-shadow: 0 18px 35px rgba(200, 80, 110, 0.25);
+      border: 4px solid #fff;
+      background-color: #fbebee;
+      /* Fondo con patrón ondulado suave */
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
+        repeating-radial-gradient(circle at 0 0, #fce4ed 0, #fce4ed 20px, #f8d3e2 20px, #f8d3e2 40px);
     }
 
-    /* Tarjetas/Pantallas que se deslizan */
+    /* Tarjetas que se deslizan */
     .card {
       position: absolute;
       width: 100%;
       height: 100%;
       top: 0;
       left: 0;
-      background-color: var(--card-bg);
-      padding: 20px 18px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
       opacity: 0;
       pointer-events: none;
       transform: translateY(100%);
       z-index: 1;
       overflow-y: auto;
+      text-align: center;
     }
 
     .card.active {
@@ -111,116 +118,95 @@
       z-index: 1;
     }
 
-    /* Estilos de Títulos y Texto */
-    h1, h2, h3 {
-      font-family: 'Georgia', serif;
-      color: var(--dark-text);
-      text-align: center;
-      font-weight: normal;
+    /* Estilos de Tipografías Retro */
+    .title-retro-caps {
+      font-family: 'Paytone One', sans-serif;
+      color: var(--subtext-red);
+      letter-spacing: 2px;
+      font-size: 18px;
+      text-transform: uppercase;
+      line-height: 1.3;
     }
 
-    h2 { font-size: 22px; margin-bottom: 6px; }
-    h3 { font-size: 18px; color: var(--pink-primary); }
-
-    p {
-      font-size: 13.5px;
-      line-height: 1.45;
-      color: var(--dark-text);
-      text-align: center;
-      margin-top: 4px;
+    .title-script {
+      font-family: 'Pacifico', cursive;
+      color: #f26d95;
+      font-size: 42px;
+      text-shadow: 3px 3px 0px #fff, 5px 5px 0px #e85a71;
+      margin: 4px 0;
+      line-height: 1.2;
     }
 
-    .sub-p {
-      font-size: 12.5px;
-      color: var(--subtext);
+    .title-script-small {
+      font-family: 'Pacifico', cursive;
+      color: #f26d95;
+      font-size: 26px;
+      text-shadow: 2px 2px 0px #fff, 3px 3px 0px #e85a71;
     }
 
-    /* Contenedor de Imágenes Adaptable (Sin recorte) */
+    p.text-retro {
+      font-family: 'Paytone One', sans-serif;
+      color: var(--subtext-red);
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.5;
+    }
+
+    /* Botones Morados Lavanda Retro con Sombra Fuerte */
+    .btn-retro {
+      background-color: var(--purple-btn);
+      color: var(--subtext-red);
+      font-family: 'Paytone One', sans-serif;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 18px;
+      border: 2px solid #2c2543;
+      border-radius: 4px;
+      box-shadow: 4px 4px 0px #2c2543;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .btn-retro:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #2c2543;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    /* Marcos de Foto */
     .img-frame {
       width: 100%;
-      border-radius: 16px;
+      border-radius: 12px;
       overflow: hidden;
       border: 3px solid #fff;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 20px rgba(200, 80, 110, 0.2);
       margin: 10px 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #f0e6df;
+      background: #fce4ed;
     }
 
     .img-frame img {
       width: 100%;
       height: auto;
-      max-height: 330px;
+      max-height: 260px;
       object-fit: contain;
       display: block;
     }
 
-    /* Botones */
-    .btn-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 8px;
-      width: 100%;
-    }
-
-    .btn {
-      background-color: var(--pink-primary);
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(232, 165, 152, 0.3);
-      width: 100%;
-    }
-
-    .btn:active, .btn:hover {
-      background-color: var(--pink-hover);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--pink-primary);
-      color: var(--dark-text);
-      box-shadow: none;
-    }
-
-    .btn-outline:hover {
-      background: var(--soft-rose);
-      color: var(--dark-text);
-    }
-
-    /* Tarjetas del Menú de Modos */
-    .mode-card {
-      background: var(--soft-rose);
-      border-radius: 16px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      border: 1px solid var(--cream-border);
-      text-align: left;
-    }
-
-    .mode-card:active {
-      transform: scale(0.98);
-    }
-
-    .mode-icon { font-size: 26px; }
-    .mode-info h4 { font-size: 14.5px; color: var(--dark-text); }
-    .mode-info p { font-size: 11px; color: var(--subtext); text-align: left; margin-top: 2px; }
-
-    /* MINIJUEGO SNAKE */
+    /* Minijuego Snake Estilo Retro */
     .snake-container {
       display: flex;
       flex-direction: column;
@@ -230,19 +216,11 @@
     }
 
     #snakeCanvas {
-      background-color: #2b2118;
-      border: 2px solid var(--pink-primary);
-      border-radius: 14px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      background-color: #2c2543;
+      border: 3px solid #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
       touch-action: none;
-    }
-
-    .snake-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      margin-top: 4px;
     }
 
     .control-row {
@@ -253,73 +231,78 @@
     .arrow-btn {
       width: 44px;
       height: 44px;
-      background: var(--soft-rose);
-      border: 1.5px solid var(--pink-primary);
-      color: var(--dark-text);
-      border-radius: 10px;
+      background: var(--purple-btn);
+      border: 2px solid #2c2543;
+      color: var(--subtext-red);
+      border-radius: 8px;
       font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       font-size: 18px;
+      box-shadow: 2px 2px 0px #2c2543;
       user-select: none;
     }
 
     .arrow-btn:active {
-      background: var(--pink-primary);
-      color: white;
+      transform: translate(2px, 2px);
+      box-shadow: 0px 0px 0px #2c2543;
     }
 
-    /* Lista Línea del Tiempo */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      text-align: left;
-      margin-top: 8px;
+    /* Elementos Decorativos Flotantes */
+    .deco-flower-top {
+      position: absolute;
+      top: -10px; right: -10px;
+      font-size: 55px;
+      pointer-events: none;
+    }
+
+    .deco-flower-bottom {
+      position: absolute;
+      bottom: -10px; left: -10px;
+      font-size: 50px;
+      pointer-events: none;
     }
 
     .timeline-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      font-size: 12.5px;
-      background: var(--soft-rose);
-      padding: 10px 12px;
-      border-radius: 12px;
+      background: #ffffffc2;
+      border: 2px solid var(--subtext-red);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 12px;
+      text-align: left;
+      color: var(--subtext-red);
+      font-family: 'Fredoka', sans-serif;
+      margin-bottom: 8px;
     }
 
     /* Pantalla Final Botones */
     .final-btns {
       position: relative;
       height: 110px;
-      margin-top: 15px;
+      margin-top: 20px;
     }
 
     #noBtn {
       position: absolute;
-      width: 48%;
+      width: 46%;
       right: 0;
       top: 0;
-      background-color: #e2d8d0;
-      color: var(--dark-text);
-      border: none;
-      transition: all 0.2s ease;
+      background: #e2d8e8;
     }
 
     #yesBtn {
       position: absolute;
-      width: 48%;
+      width: 46%;
       left: 0;
       top: 0;
     }
 
     .footer-note {
       font-size: 11px;
-      color: var(--subtext);
-      text-align: center;
-      margin-top: 6px;
+      color: #9a4b5c;
+      font-family: 'Fredoka', sans-serif;
     }
   </style>
 </head>
@@ -330,72 +313,56 @@
 
   <div class="scene">
 
-    <!-- PORTADA INICIAL -->
+    <!-- PANTALLA 1: PORTADA RETRO (REPLICANDO IMAGEN 1) -->
     <div class="card active" id="cardHome">
-      <div style="text-align: center;">
-        <div style="font-size: 40px; margin-bottom: 4px;">🌸</div>
-        <h2>Hola, amiga... ❤️</h2>
-        <p>He preparado algo muy especial para ti. Un pequeño rincón para recordar todo lo que hemos compartido.</p>
+      <div class="deco-flower-top">🌸</div>
+      <div style="margin-top: 15px;">
+        <p class="title-retro-caps" style="font-size: 20px;">HOLA, NAI</p>
+        <p class="title-retro-caps" style="margin-top: 15px; font-size: 15px;">TU AMISTAD ES UNA</p>
         
-        <!-- Foto de Portada Completa -->
+        <h1 class="title-script">Curita</h1>
+        
+        <p class="title-retro-caps" style="font-size: 15px; margin-bottom: 10px;">AL CORAZÓN</p>
+        
+        <!-- Foto principal de portada -->
         <div class="img-frame">
           <img src="Imagen1.jpeg" alt="Foto juntas" onerror="this.onerror=null; this.src='Imagen1.jpg';">
         </div>
       </div>
-      <div class="btn-group">
-        <button class="btn" onclick="goToCard('cardMenu')">Comenzar ✨</button>
+
+      <div>
+        <button class="btn-retro" onclick="goToCard('cardMenu')">Comenzar ✨</button>
       </div>
+      <div class="deco-flower-bottom">🌼</div>
     </div>
 
-    <!-- MENÚ DE MODOS -->
+    <!-- PANTALLA 2: MENÚ DE MODOS (REPLICANDO IMAGEN 2) -->
     <div class="card" id="cardMenu">
-      <div>
-        <h2>Elige un camino</h2>
-        <p class="sub-p" style="margin-bottom: 12px;">¿Cómo quieres explorar nuestros recuerdos?</p>
-        
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <div class="mode-card" onclick="startNostalgia()">
-            <div class="mode-icon">☔</div>
-            <div class="mode-info">
-              <h4>Modo Nostalgia</h4>
-              <p>Un viaje paso a paso por nuestros recuerdos.</p>
-            </div>
-          </div>
-
-          <div class="mode-card" onclick="startQuiz()">
-            <div class="mode-icon">🧠</div>
-            <div class="mode-info">
-              <h4>Modo Quiz</h4>
-              <p>Pon a prueba cuántas historias recuerdas.</p>
-            </div>
-          </div>
-
-          <!-- MODO SNAKE -->
-          <div class="mode-card" onclick="startSnake()">
-            <div class="mode-icon">🐍</div>
-            <div class="mode-info">
-              <h4>Modo Arcade Snake</h4>
-              <p>Consigue 3 manzanas para desbloquear la misión.</p>
-            </div>
-          </div>
-
-          <div class="mode-card" onclick="startTimeline()">
-            <div class="mode-icon">📖</div>
-            <div class="mode-info">
-              <h4>Línea del tiempo</h4>
-              <p>Un recorrido desde el colegio hasta hoy.</p>
-            </div>
-          </div>
-        </div>
+      <div style="margin-top: 20px;">
+        <p class="title-retro-caps" style="font-size: 20px;">JUGUEMOS ALGO.</p>
+        <p class="title-retro-caps" style="font-size: 14px; margin-top: 6px;">ELEGÍ UNA OPCIÓN PARA CONTINUAR</p>
       </div>
-      <div class="footer-note">Selecciona cualquiera para avanzar</div>
+
+      <div class="btn-group" style="margin-top: 20px;">
+        <button class="btn-retro" onclick="startNostalgia()">MODO NOSTALGIA</button>
+        <button class="btn-retro" onclick="startQuiz()">MODO QUIZ</button>
+        <button class="btn-retro" onclick="startSnake()">MODO GAMER</button>
+        <button class="btn-retro" onclick="startTimeline()">LÍNEA DE TIEMPO</button>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <p class="footer-note">(Después lo volvés a intentar para chismear el resto)</p>
+      </div>
+      <div class="deco-flower-bottom">🍒</div>
     </div>
 
     <!-- MODO 1: NOSTALGIA -->
     <div class="card" id="cardNostalgia">
       <div id="nostalgiaContent"></div>
-      <div class="btn-group" id="nostalgiaBtns">
-        <button class="btn" onclick="nextNostalgiaStep()">Siguiente →</button>
+      <div>
+        <div class="btn-group" id="nostalgiaBtns">
+          <button class="btn-retro" onclick="nextNostalgiaStep()">SIGUIENTE →</button>
+        </div>
       </div>
     </div>
 
@@ -404,11 +371,11 @@
       <div id="quizContent"></div>
     </div>
 
-    <!-- MODO 3: SNAKE -->
+    <!-- MODO 3: GAMER (SNAKE) -->
     <div class="card" id="cardSnake">
       <div>
-        <h2>🎮 Prueba Arcade</h2>
-        <p class="sub-p" style="margin-top: 2px;">Junta <b>3 manzanas 🍎</b> con las flechas para avanzar:</p>
+        <p class="title-retro-caps" style="font-size: 18px;">MODO GAMER 🎮</p>
+        <p class="text-retro" style="font-size: 11px; margin-top: 4px;">Juntá 3 manzanas 🍎 para avanzar</p>
         
         <div class="snake-container">
           <canvas id="snakeCanvas" width="220" height="170"></canvas>
@@ -422,18 +389,17 @@
             </div>
           </div>
         </div>
-        <p id="snakeStatus" style="font-size: 12px; text-align: center; color: var(--pink-primary); font-weight: bold; margin-top: 6px;">Manzanas: 0/3</p>
+        <p id="snakeStatus" class="title-retro-caps" style="font-size: 12px; margin-top: 6px;">Manzanas: 0/3</p>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-outline" style="font-size: 12px; padding: 8px;" onclick="goToCard('cardMenu')">← Volver al menú</button>
+      <div>
+        <button class="btn-retro" style="font-size: 11px; padding: 8px;" onclick="goToCard('cardMenu')">← Volver al menú</button>
       </div>
     </div>
 
     <!-- MODO 4: LÍNEA DEL TIEMPO -->
     <div class="card" id="cardTimeline">
       <div>
-        <h2>📖 Nuestra Historia</h2>
-        <p class="sub-p">Más de 10 años en unos cuántos hitos:</p>
+        <p class="title-retro-caps" style="font-size: 18px; margin-bottom: 12px;">NUESTRA HISTORIA 📖</p>
         
         <div class="timeline">
           <div class="timeline-item">📍 <b>Colegio:</b> Nos conocimos sin saber lo importante que te volverías.</div>
@@ -443,47 +409,44 @@
           <div class="timeline-item">❤️ <b>Hoy:</b> Más de 10 años de historia compartida.</div>
         </div>
       </div>
-      <div class="btn-group">
-        <button class="btn" onclick="goToCard('cardFinal')">Ver el Siguiente Paso ✨</button>
+      <div>
+        <button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ✨</button>
       </div>
     </div>
 
-    <!-- PANTALLA FINAL -->
+    <!-- PANTALLA FINAL (REPLICANDO IMAGEN 3) -->
     <div class="card" id="cardFinal">
-      <div>
-        <div style="font-size: 35px; text-align: center;">💐</div>
-        <h2>Una pregunta importante...</h2>
-        <p style="margin-top: 8px; font-size: 13px;">
-          Después de tantos años y de compartir momentos tan increíbles, estoy por vivir uno de los días más especiales de mi vida.
+      <div class="deco-flower-top">🌸</div>
+      <div style="margin-top: 20px;">
+        <p class="title-retro-caps" style="font-size: 18px;">UNA PREGUNTA IMPORTANTE</p>
+        
+        <p class="text-retro" style="margin-top: 15px; font-size: 12px; line-height: 1.6;">
+          DESPUÉS DE TANTOS AÑOS Y DE VERNOS CRECER. HAGAMOS UNA EXPERIENCIA MÁS,
         </p>
-        <p style="margin-top: 6px; font-weight: bold; color: var(--pink-primary); font-size: 14.5px;">
-          No puedo imaginar mi boda sin ti a mi lado.
-        </p>
-        <h3 style="margin-top: 12px; font-size: 19px; text-align: center;">¿Aceptas ser mi madrina de boda?</h3>
+
+        <h2 class="title-script-small" style="margin-top: 15px;">¿Aceptas ser nuestra testigo de boda?</h2>
 
         <div class="final-btns">
-          <button class="btn" id="yesBtn" onclick="acceptProposal()">❤️ ¡Sí, acepto!</button>
-          <button class="btn" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">🙈 No</button>
+          <button class="btn-retro" id="yesBtn" onclick="acceptProposal()">SÍ, ACEPTO</button>
+          <button class="btn-retro" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">NO</button>
         </div>
-        <p id="noWarning" style="font-size: 11px; color: var(--pink-primary); height: 15px;"></p>
+        <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 10px;"></p>
       </div>
-      <div class="footer-note">Prometo que el botón de No está fuera de servicio 😉</div>
+      <div class="deco-flower-bottom">☔</div>
     </div>
 
     <!-- PANTALLA CELEBRACIÓN -->
     <div class="card" id="cardAccepted">
-      <div style="text-align: center;">
-        <div style="font-size: 55px; margin-bottom: 8px;">🎉💖</div>
-        <h2>¡SABÍA QUE DIRÍAS QUE SÍ!</h2>
-        <p style="margin-top: 10px; font-size: 13.5px;">
+      <div style="margin-top: 30px;">
+        <div style="font-size: 55px; margin-bottom: 10px;">🎉💖</div>
+        <p class="title-retro-caps" style="font-size: 20px;">¡SABÍA QUE DIRÍAS QUE SÍ!</p>
+        <p class="text-retro" style="margin-top: 15px; font-size: 13px;">
           ¡Gracias por acompañarme durante más de 10 años y por estar a mi lado en este gran día!
         </p>
-        <p style="margin-top: 8px; font-weight: bold; color: var(--pink-primary);">
-          Te quiero muchísimo ❤️
-        </p>
+        <p class="title-script-small" style="margin-top: 15px;">Te quiero muchísimo ❤️</p>
       </div>
-      <div class="btn-group">
-        <button class="btn" onclick="confirmWhatsApp()">Confirmar por WhatsApp 📱</button>
+      <div>
+        <button class="btn-retro" onclick="confirmWhatsApp()">Confirmar por WhatsApp 📱</button>
       </div>
     </div>
 
@@ -523,13 +486,13 @@
       },
       {
         title: "Un día de lluvia ☔",
-        text: "Uno de mis recuerdos favoritos siempre será aquel día en que estaba lloviendo muchísimo y decidimos compartir una sombrilla. Quién diría que ese pequeño momento terminaría convirtiéndose en algo tan importante.",
+        text: "Uno de mis recuerdos favoritos siempre será aquel día en que estaba lloviendo muchísimo y decidimos compartir una sombrilla.",
         rain: true,
         icon: "🌧️"
       },
       {
         title: "Nuestros planes favoritos",
-        text: "• Comer empanadas 🥟<br>• Ver La Rosa de Guadalupe 📺<br>• Reírnos de absolutamente cualquier cosa.",
+        text: "• Comer empanadas 🥟<br>• Ver La Rosa de Guadalupe 📺<br>• Reírnos de cualquier cosa.",
         icon: "✨"
       },
       {
@@ -567,9 +530,12 @@
         rain.style.display = 'none';
       }
 
-      let html = `<div style="text-align:center;">`;
-      if (data.icon) html += `<div style="font-size:40px; margin-bottom:6px;">${data.icon}</div>`;
-      html += `<h2>${data.title}</h2><p style="margin-top:8px;">${data.text}</p>`;
+      let html = `<div style="margin-top:15px;">
+        <p class="title-retro-caps" style="font-size:16px;">${data.title}</p>`;
+
+      if (data.icon) html += `<div style="font-size:35px; margin:10px 0;">${data.icon}</div>`;
+      
+      html += `<p class="text-retro" style="margin-top:10px; font-size:12px; text-transform:none;">${data.text}</p>`;
 
       if (data.imgSrc) {
         html += `
@@ -584,9 +550,9 @@
 
       const btns = document.getElementById('nostalgiaBtns');
       if (data.finalStep) {
-        btns.innerHTML = `<button class="btn" onclick="goToCard('cardFinal')">Continuar ❤️</button>`;
+        btns.innerHTML = `<button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ❤️</button>`;
       } else {
-        btns.innerHTML = `<button class="btn" onclick="nextNostalgiaStep()">Siguiente →</button>`;
+        btns.innerHTML = `<button class="btn-retro" onclick="nextNostalgiaStep()">SIGUIENTE →</button>`;
       }
     }
 
@@ -641,24 +607,24 @@
       if (quizStep < quizQuestions.length) {
         const q = quizQuestions[quizStep];
         let html = `
-          <div>
-            <h2>Pregunta ${quizStep + 1} de 3</h2>
-            <p style="margin-top:12px; font-weight:bold;">${q.q}</p>
-            <div class="btn-group" style="margin-top:15px;">
+          <div style="margin-top:20px;">
+            <p class="title-retro-caps">PREGUNTA ${quizStep + 1} DE 3</p>
+            <p class="text-retro" style="margin-top:15px; font-size:13px;">${q.q}</p>
+            <div class="btn-group" style="margin-top:20px;">
         `;
         q.options.forEach((opt, idx) => {
-          html += `<button class="btn btn-outline" onclick="answerQuiz(${idx})">${opt}</button>`;
+          html += `<button class="btn-retro" style="background:#fff;" onclick="answerQuiz(${idx})">${opt}</button>`;
         });
         html += `</div></div>`;
         container.innerHTML = html;
       } else {
         container.innerHTML = `
-          <div style="text-align:center;">
+          <div style="margin-top:30px;">
             <div style="font-size:45px;">💯</div>
-            <h2>¡Resultado: 100%!</h2>
-            <p style="margin-top:8px;">Compatibilidad total para ser mi madrina de boda ❤️</p>
-            <div class="btn-group" style="margin-top:20px;">
-              <button class="btn" onclick="goToCard('cardFinal')">Continuar ✨</button>
+            <p class="title-retro-caps" style="font-size:20px; margin-top:10px;">¡RESULTADO: 100%!</p>
+            <p class="text-retro" style="margin-top:10px; font-size:12px;">Compatibilidad total para ser mi testigo de boda ❤️</p>
+            <div class="btn-group" style="margin-top:30px;">
+              <button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ✨</button>
             </div>
           </div>
         `;
@@ -748,7 +714,7 @@
         document.getElementById('snakeStatus').innerText = `Manzanas: ${applesEaten}/3`;
         if (applesEaten >= 3) {
           clearInterval(gameInterval);
-          document.getElementById('snakeStatus').innerText = "✨ ¡DESAFÍO SUPERADO! ✨";
+          document.getElementById('snakeStatus').innerText = "✨ ¡NIVEL COMPLETADO! ✨";
           confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
           setTimeout(() => {
             goToCard('cardFinal');
@@ -764,16 +730,16 @@
     }
 
     function drawGame() {
-      ctx.fillStyle = '#2b2118';
+      ctx.fillStyle = '#2c2543';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#e8a598';
+      ctx.fillStyle = '#eb5e8d';
       ctx.beginPath();
       ctx.arc((food.x * gridSize) + 5, (food.y * gridSize) + 5, 4, 0, Math.PI * 2);
       ctx.fill();
 
       snake.forEach((seg, i) => {
-        ctx.fillStyle = i === 0 ? '#d4af37' : '#f4e3df';
+        ctx.fillStyle = i === 0 ? '#cbbeff' : '#f8d3e2';
         ctx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2);
       });
     }
@@ -817,7 +783,7 @@
     }
 
     function confirmWhatsApp() {
-      const message = encodeURIComponent("¡Amiga! Vi la página web. ¡Obvio que SÍ acepto ser tu madrina de boda! 💐🎉💖");
+      const message = encodeURIComponent("¡Nai! Vi la invitación en la web. ¡Obvio que SÍ acepto ser tu testigo de boda! 💐🎉💖");
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
   </script>
