@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Algo muy especial para ti... ❤️</title>
+  
+  <!-- Canvas Confetti CDN (Librería ligera para el final) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #f7f1e5;
+      --card-bg: #fffcf7;
+      --pink-primary: #e8a598;
+      --pink-hover: #d89386;
+      --soft-rose: #f4e3df;
+      --dark-text: #4a3b32;
+      --subtext: #8c7a6b;
+      --cream-border: #ebdcd5;
+      --gold-accent: #d4af37;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f7f1e5 0%, #eee3d3 100%);
+      color: var(--dark-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animación sutil de lluvia para el fondo o pantallas */
+    .rain-container {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 10;
+      display: none;
+      overflow: hidden;
+    }
+
+    .drop {
+      position: absolute;
+      background: rgba(180, 200, 220, 0.5);
+      width: 1px;
+      height: 15px;
+      animation: fall 0.8s linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(600px); }
+    }
+
+    /* Escenario MÓVIL (Tarjeta) */
+    .scene {
+      width: 100%;
+      max-width: 380px;
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(90, 70, 60, 0.15);
+      border: 1px solid var(--cream-border);
+      background-color: var(--card-bg);
+    }
+
+    /* Tarjetas/Pantallas que se deslizan */
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: var(--card-bg);
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(100%);
+      z-index: 1;
+      overflow-y: auto;
+    }
+
+    .card.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      z-index: 2;
+    }
+
+    .card.exit {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-100%);
+      z-index: 1;
+    }
+
+    /* Estilos de Títulos y Texto */
+    h1, h2, h3 {
+      font-family: 'Georgia', serif;
+      color: var(--dark-text);
+      text-align: center;
+      font-weight: normal;
+    }
+
+    h2 { font-size: 22px; margin-bottom: 8px; }
+    h3 { font-size: 18px; color: var(--pink-primary); }
+
+    p {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--dark-text);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .sub-p {
+      font-size: 13px;
+      color: var(--subtext);
+    }
+
+    /* Botones */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+      width: 100%;
+    }
+
+    .btn {
+      background-color: var(--pink-primary);
+      color: white;
+      border: none;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(232, 165, 152, 0.3);
+      width: 100%;
+    }
+
+    .btn:active, .btn:hover {
+      background-color: var(--pink-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--pink-primary);
+      color: var(--dark-text);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: var(--soft-rose);
+      color: var(--dark-text);
+    }
+
+    /* Tarjetas del Menú de Modos */
+    .mode-card {
+      background: var(--soft-rose);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      border: 1px solid var(--cream-border);
+      text-align: left;
+    }
+
+    .mode-card:active {
+      transform: scale(0.98);
+    }
+
+    .mode-icon {
+      font-size: 28px;
+    }
+
+    .mode-info h4 {
+      font-size: 15px;
+      color: var(--dark-text);
+    }
+
+    .mode-info p {
+      font-size: 11.5px;
+      color: var(--subtext);
+      text-align: left;
+      margin-top: 2px;
+    }
+
+    /* Ilustración Sombrilla SVG */
+    .illustration {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    /* Lista Línea del Tiempo */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      background: var(--soft-rose);
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
+
+    /* Pantalla Final Botones */
+    .final-btns {
+      position: relative;
+      height: 120px;
+      margin-top: 15px;
+    }
+
+    #noBtn {
+      position: absolute;
+      width: 48%;
+      right: 0;
+      top: 0;
+      background-color: #e2d8d0;
+      color: var(--dark-text);
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    #yesBtn {
+      position: absolute;
+      width: 48%;
+      left: 0;
+      top: 0;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--subtext);
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lluvia animada para el recuerdo -->
+  <div class="rain-container" id="rainContainer"></div>
+
+  <div class="scene">
+
+    <!-- PORTADA INICIAL -->
+    <div class="card active" id="cardHome">
+      <div style="text-align: center; margin-auto: 0;">
+        <div style="font-size: 50px; margin-bottom: 10px;">🌸</div>
+        <h2>Hola, amiga... ❤️</h2>
+        <p style="margin-top: 15px;">He preparado algo muy especial para ti. Un pequeño rincón para recordar todo lo que hemos compartido.</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goToCard('cardMenu')">Comenzar ✨</button>
+      </div>
+    </div>
+
+    <!-- MENÚ DE MODOS -->
+    <div class="card" id="cardMenu">
+      <div>
+        <h2>Elige un camino</h2>
+        <p class="sub-p" style="margin-bottom: 15px;">¿Cómo quieres explorar nuestros recuerdos?</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="mode-card" onclick="startNostalgia()">
+            <div class="mode-icon">☔</div>
+            <div class="mode-info">
+              <h4>Modo Nostalgia</h4>
+              <p>Un viaje paso a paso por nuestros recuerdos.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" onclick="startQuiz()">
+            <div class="mode-icon">🧠</div>
+            <div class="mode-info">
+              <h4>Modo Quiz</h4>
+              <p>Pon a prueba cuántas historias recuerdas.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" onclick="startPlaylist()">
+            <div class="mode-icon">🎵</div>
+            <div class="mode-info">
+              <h4>Modo Playlist</h4>
+              <p>Nuestra historia contada como canciones.</p>
+            </div>
+          </div>
+
+          <div class="mode-card" onclick="startTimeline()">
+            <div class="mode-icon">📖</div>
+            <div class="mode-info">
+              <h4>Línea del tiempo</h4>
+              <p>Un recorrido desde el colegio hasta hoy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">Selecciona cualquiera para avanzar</div>
+    </div>
+
+    <!-- MODO 1: NOSTALGIA (Paso a paso) -->
+    <div class="card" id="cardNostalgia">
+      <div id="nostalgiaContent">
+        <!-- Generado dinámicamente -->
+      </div>
+      <div class="btn-group" id="nostalgiaBtns">
+        <button class="btn" onclick="nextNostalgiaStep()">Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- MODO 2: QUIZ -->
+    <div class="card" id="cardQuiz">
+      <div id="quizContent">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+
+    <!-- MODO 3: PLAYLIST -->
+    <div class="card" id="cardPlaylist">
+      <div>
+        <h2>🎵 Nuestra Playlist</h2>
+        <p class="sub-p">Cada track guarda un recuerdo importante.</p>
+        <div class="btn-group" style="margin-top: 15px;" id="playlistTracklist">
+          <button class="btn btn-outline" onclick="showTrack('Cas con Sal', 'Toda gran amistad tiene una canción especial. La nuestra siempre será Cas con Sal 🎵')">🎵 1. Cas con Sal</button>
+          <button class="choice-btn" onclick="showTrack('Día de Lluvia', 'Aquel día en que compartimos sombrilla bajo el aguacero y nació este dibujo. ☔')">☔ 2. Día de lluvia</button>
+          <button class="choice-btn" onclick="showTrack('Empanadas', 'Comer empanadas mientras nos reíamos de cualquier cosa. 🥟')">🥟 3. Tardes de empanadas</button>
+          <button class="choice-btn" onclick="showTrack('La Rosa de Guadalupe', 'Incontables capítulos vistos juntas y carcajadas garantizadas. 📺')">📺 4. La Rosa de Guadalupe</button>
+        </div>
+        <div id="trackDetail" style="margin-top: 15px; display: none; background: var(--soft-rose); padding: 12px; border-radius: 12px;">
+          <h4 id="trackTitle" style="color: var(--pink-primary); font-size: 14px;"></h4>
+          <p id="trackDesc" style="font-size: 12.5px; margin-top: 4px;"></p>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goToCard('cardFinal')">Continuar al Gran Momento ❤️</button>
+      </div>
+    </div>
+
+    <!-- MODO 4: LÍNEA DEL TIEMPO -->
+    <div class="card" id="cardTimeline">
+      <div>
+        <h2>📖 Nuestra Historia</h2>
+        <p class="sub-p">Más de 10 años en unos cuántos hitos:</p>
+        
+        <div class="timeline">
+          <div class="timeline-item">📍 <b>Colegio:</b> Nos conocimos sin saber lo importante que te volverías.</div>
+          <div class="timeline-item">☔ <b>Lluvia:</b> El día que compartimos sombrilla.</div>
+          <div class="timeline-item">✏️ <b>Dibujo:</b> Inmortalizamos aquel momento en un dibujo.</div>
+          <div class="timeline-item">🥟 <b>Tardes:</b> Empanadas y La Rosa de Guadalupe.</div>
+          <div class="timeline-item">❤️ <b>Hoy:</b> Más de 10 años de historia compartida.</div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="goToCard('cardFinal')">Ver el Siguiente Paso ✨</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA FINAL (COMÚN) -->
+    <div class="card" id="cardFinal">
+      <div>
+        <div style="font-size: 40px; text-align: center;">💐</div>
+        <h2>Una pregunta importante...</h2>
+        <p style="margin-top: 10px; font-size: 13.5px;">
+          Después de tantos años y de compartir momentos tan increíbles, estoy por vivir uno de los días más especiales de mi vida.
+        </p>
+        <p style="margin-top: 8px; font-weight: bold; color: var(--pink-primary); font-size: 15px;">
+          No puedo imaginar mi boda sin ti a mi lado.
+        </p>
+        <h3 style="margin-top: 15px; font-size: 20px; text-align: center;">¿Aceptas ser mi madrina de boda?</h3>
+
+        <div class="final-btns">
+          <button class="btn" id="yesBtn" onclick="acceptProposal()">❤️ ¡Sí, acepto!</button>
+          <button class="btn" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">🙈 No</button>
+        </div>
+        <p id="noWarning" style="font-size: 11px; color: var(--pink-primary); height: 15px;"></p>
+      </div>
+      <div class="footer-note">Prometo que el botón de No está fuera de servicio 😉</div>
+    </div>
+
+    <!-- PANTALLA CELEBRACIÓN -->
+    <div class="card" id="cardAccepted">
+      <div style="text-align: center; margin-auto: 0;">
+        <div style="font-size: 60px; margin-bottom: 10px;">🎉💖</div>
+        <h2>¡SABÍA QUE DIRÍAS QUE SÍ!</h2>
+        <p style="margin-top: 15px; font-size: 14px;">
+          ¡Gracias por acompañarme durante más de 10 años y por estar a mi lado en este gran día!
+        </p>
+        <p style="margin-top: 10px; font-weight: bold; color: var(--pink-primary);">
+          Te quiero muchísimo ❤️
+        </p>
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="confirmWhatsApp()">Confirmar por WhatsApp 📱</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let activeCardId = 'cardHome';
+
+    function goToCard(targetId) {
+      const current = document.getElementById(activeCardId);
+      const next = document.getElementById(targetId);
+
+      // Desactivar lluvia si salimos de nostalgia
+      if (targetId !== 'cardNostalgia') {
+        document.getElementById('rainContainer').style.display = 'none';
+      }
+
+      if (current) {
+        current.classList.remove('active');
+        current.classList.add('exit');
+      }
+
+      if (next) {
+        next.classList.remove('exit');
+        next.classList.add('active');
+      }
+
+      activeCardId = targetId;
+    }
+
+    /* MODO 1: NOSTALGIA */
+    let nostalgiaStep = 0;
+    const nostalgiaData = [
+      {
+        title: "Todo comenzó aquí",
+        text: "Nos conocimos en el colegio. Sin saberlo, ese lugar nos regalaría una amistad de más de diez años.",
+        icon: "🏫"
+      },
+      {
+        title: "Un día de lluvia ☔",
+        text: "Uno de mis recuerdos favoritos siempre será aquel día en que estaba lloviendo muchísimo y decidimos compartir una sombrilla. Quién diría que ese pequeño momento terminaría convirtiéndose en algo tan importante.",
+        rain: true,
+        icon: "🌧️"
+      },
+      {
+        title: "Nuestros planes favoritos",
+        text: "• Comer empanadas 🥟<br>• Ver La Rosa de Guadalupe 📺<br>• Reírnos de absolutamente cualquier cosa.",
+        icon: "✨"
+      },
+      {
+        title: "Nuestra canción 🎵",
+        text: "Toda gran amistad tiene una banda sonora. La nuestra siempre será:<br><br><b>🎵 Cas con Sal</b>",
+        icon: "🎶"
+      },
+      {
+        title: "Nuestro dibujo ✏️",
+        text: "Tanto nos gustó aquel día compartiendo sombrilla que hasta lo dibujamos para guardarlo para siempre.",
+        svg: true
+      },
+      {
+        title: "Más de diez años después...",
+        text: "Todavía seguimos escribiendo nuestra historia.<br><br>Y ahora quiero preguntarte algo muy importante.",
+        finalStep: true
+      }
+    ];
+
+    function startNostalgia() {
+      nostalgiaStep = 0;
+      renderNostalgia();
+      goToCard('cardNostalgia');
+    }
+
+    function renderNostalgia() {
+      const data = nostalgiaData[nostalgiaStep];
+      const content = document.getElementById('nostalgiaContent');
+      const rain = document.getElementById('rainContainer');
+
+      // Control de lluvia
+      if (data.rain) {
+        rain.style.display = 'block';
+        createRain();
+      } else {
+        rain.style.display = 'none';
+      }
+
+      let html = `<div style="text-align:center;">`;
+      if (data.icon) html += `<div style="font-size:40px; margin-bottom:10px;">${data.icon}</div>`;
+      html += `<h2>${data.title}</h2><p style="margin-top:12px;">${data.text}</p>`;
+
+      if (data.svg) {
+        html += `
+          <div class="illustration">
+            <svg width="140" height="120" viewBox="0 0 100 100">
+              <!-- Sombrilla simple dibujada -->
+              <path d="M 10 50 Q 50 10 90 50 Z" fill="#e8a598" stroke="#4a3b32" stroke-width="3"/>
+              <line x1="50" y1="50" x2="50" y2="85" stroke="#4a3b32" stroke-width="3"/>
+              <path d="M 50 85 Q 42 95 35 85" fill="none" stroke="#4a3b32" stroke-width="3"/>
+              <!-- Dos figuras amicales -->
+              <circle cx="38" cy="65" r="6" fill="#8c7a6b"/>
+              <circle cx="62" cy="65" r="6" fill="#8c7a6b"/>
+            </svg>
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+      content.innerHTML = html;
+
+      const btns = document.getElementById('nostalgiaBtns');
+      if (data.finalStep) {
+        btns.innerHTML = `<button class="btn" onclick="goToCard('cardFinal')">Continuar ❤️</button>`;
+      } else {
+        btns.innerHTML = `<button class="btn" onclick="nextNostalgiaStep()">Siguiente →</button>`;
+      }
+    }
+
+    function nextNostalgiaStep() {
+      if (nostalgiaStep < nostalgiaData.length - 1) {
+        nostalgiaStep++;
+        renderNostalgia();
+      }
+    }
+
+    function createRain() {
+      const container = document.getElementById('rainContainer');
+      container.innerHTML = '';
+      for (let i = 0; i < 30; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'drop';
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDuration = `${0.5 + Math.random() * 0.5}s`;
+        drop.style.animationDelay = `${Math.random()}s`;
+        container.appendChild(drop);
+      }
+    }
+
+    /* MODO 2: QUIZ */
+    let quizStep = 0;
+    const quizQuestions = [
+      {
+        q: "¿Dónde nos conocimos?",
+        options: ["Universidad", "Colegio", "Trabajo"],
+        correct: 1
+      },
+      {
+        q: "¿Qué hacíamos mientras comíamos empanadas?",
+        options: ["Veíamos anime", "Veíamos La Rosa de Guadalupe", "Jugábamos videojuegos"],
+        correct: 1
+      },
+      {
+        q: "¿Qué recuerdo representa nuestra amistad?",
+        options: ["Compartir sombrilla", "Viajar juntas", "Un cumpleaños"],
+        correct: 0
+      }
+    ];
+
+    function startQuiz() {
+      quizStep = 0;
+      renderQuiz();
+      goToCard('cardQuiz');
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContent');
+      if (quizStep < quizQuestions.length) {
+        const q = quizQuestions[quizStep];
+        let html = `
+          <div>
+            <h2>Pregunta ${quizStep + 1} de 3</h2>
+            <p style="margin-top:15px; font-weight:bold;">${q.q}</p>
+            <div class="btn-group" style="margin-top:20px;">
+        `;
+        q.options.forEach((opt, idx) => {
+          html += `<button class="btn btn-outline" onclick="answerQuiz(${idx})">${opt}</button>`;
+        });
+        html += `</div></div>`;
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = `
+          <div style="text-align:center;">
+            <div style="font-size:50px;">💯</div>
+            <h2>¡Resultado: 100%!</h2>
+            <p style="margin-top:10px;">Compatibilidad total para ser mi madrina de boda ❤️</p>
+            <div class="btn-group" style="margin-top:30px;">
+              <button class="btn" onclick="goToCard('cardFinal')">Continuar ✨</button>
+            </div>
+          </div>
+        `;
+        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+      }
+    }
+
+    function answerQuiz(index) {
+      if (index === quizQuestions[quizStep].correct) {
+        quizStep++;
+        renderQuiz();
+      } else {
+        alert("¡Esa no es! Piénsalo bien 😉");
+      }
+    }
+
+    /* MODO 3: PLAYLIST */
+    function startPlaylist() {
+      document.getElementById('trackDetail').style.display = 'none';
+      goToCard('cardPlaylist');
+    }
+
+    function showTrack(title, desc) {
+      document.getElementById('trackTitle').innerText = title;
+      document.getElementById('trackDesc').innerText = desc;
+      document.getElementById('trackDetail').style.display = 'block';
+    }
+
+    /* MODO 4: TIMELINE */
+    function startTimeline() {
+      goToCard('cardTimeline');
+    }
+
+    /* BOTÓN TRAVIESO NO */
+    const noFrases = [
+      "¿Segura? 🤨",
+      "Piénsalo otra vez.",
+      "Ese botón está en mantenimiento.",
+      "Error 404: esa opción no existe.",
+      "Sabía que intentarías presionarlo 😂"
+    ];
+    let fraseIdx = 0;
+
+    function escapeNoBtn() {
+      const btn = document.getElementById('noBtn');
+      const warning = document.getElementById('noWarning');
+
+      // Movimiento aleatorio dentro de su contenedor
+      const randomX = (Math.random() - 0.5) * 120;
+      const randomY = (Math.random() - 0.5) * 80;
+
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+      warning.innerText = noFrases[fraseIdx % noFrases.length];
+      fraseIdx++;
+    }
+
+    /* ACEPTAR */
+    function acceptProposal() {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+      goToCard('cardAccepted');
+    }
+
+    function confirmWhatsApp() {
+      const message = encodeURIComponent("¡Amiga! Vi la página web. ¡Obvio que SÍ acepto ser tu madrina de boda! 💐🎉💖");
+      window.open(`https://wa.me/?text=${message}`, '_blank');
+    }
+  </script>
+</body>
+</html>
