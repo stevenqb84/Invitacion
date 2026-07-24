@@ -135,7 +135,7 @@
       color: var(--subtext);
     }
 
-    /* Contenedor de Imágenes con Marco Elegante */
+    /* Contenedor de Imágenes */
     .img-frame {
       width: 100%;
       max-height: 220px;
@@ -218,6 +218,57 @@
     .mode-icon { font-size: 26px; }
     .mode-info h4 { font-size: 14.5px; color: var(--dark-text); }
     .mode-info p { font-size: 11px; color: var(--subtext); text-align: left; margin-top: 2px; }
+
+    /* MINIJUEGO SNAKE */
+    .snake-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    #snakeCanvas {
+      background-color: #2b2118;
+      border: 2px solid var(--pink-primary);
+      border-radius: 14px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      touch-action: none;
+    }
+
+    .snake-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .control-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .arrow-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--soft-rose);
+      border: 1.5px solid var(--pink-primary);
+      color: var(--dark-text);
+      border-radius: 10px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+    }
+
+    .arrow-btn:active {
+      background: var(--pink-primary);
+      color: white;
+    }
 
     /* Lista Línea del Tiempo */
     .timeline {
@@ -318,11 +369,12 @@
             </div>
           </div>
 
-          <div class="mode-card" onclick="startPlaylist()">
-            <div class="mode-icon">🎵</div>
+          <!-- MODO SNAKE REEMPLAZANDO PLAYLIST -->
+          <div class="mode-card" onclick="startSnake()">
+            <div class="mode-icon">🐍</div>
             <div class="mode-info">
-              <h4>Modo Playlist</h4>
-              <p>Nuestra historia contada como canciones.</p>
+              <h4>Modo Arcade Snake</h4>
+              <p>Consigue 3 manzanas para desbloquear la misión.</p>
             </div>
           </div>
 
@@ -338,11 +390,9 @@
       <div class="footer-note">Selecciona cualquiera para avanzar</div>
     </div>
 
-    <!-- MODO 1: NOSTALGIA (Paso a paso) -->
+    <!-- MODO 1: NOSTALGIA -->
     <div class="card" id="cardNostalgia">
-      <div id="nostalgiaContent">
-        <!-- Generado dinámicamente -->
-      </div>
+      <div id="nostalgiaContent"></div>
       <div class="btn-group" id="nostalgiaBtns">
         <button class="btn" onclick="nextNostalgiaStep()">Siguiente →</button>
       </div>
@@ -350,29 +400,31 @@
 
     <!-- MODO 2: QUIZ -->
     <div class="card" id="cardQuiz">
-      <div id="quizContent">
-        <!-- Generado por JS -->
-      </div>
+      <div id="quizContent"></div>
     </div>
 
-    <!-- MODO 3: PLAYLIST -->
-    <div class="card" id="cardPlaylist">
+    <!-- MODO 3: SNAKE (PANTALLA) -->
+    <div class="card" id="cardSnake">
       <div>
-        <h2>🎵 Nuestra Playlist</h2>
-        <p class="sub-p">Cada track guarda un recuerdo importante.</p>
-        <div class="btn-group" style="margin-top: 12px;" id="playlistTracklist">
-          <button class="btn btn-outline" onclick="showTrack('Cas con Sal', 'Toda gran amistad tiene una canción especial. La nuestra siempre será Cas con Sal 🎵')">🎵 1. Cas con Sal</button>
-          <button class="choice-btn" onclick="showTrack('Día de Lluvia', 'Aquel día en que compartimos sombrilla bajo el aguacero y nació este dibujo. ☔')">☔ 2. Día de lluvia</button>
-          <button class="choice-btn" onclick="showTrack('Empanadas', 'Comer empanadas mientras nos reíamos de cualquier cosa. 🥟')">🥟 3. Tardes de empanadas</button>
-          <button class="choice-btn" onclick="showTrack('La Rosa de Guadalupe', 'Incontables capítulos vistos juntas y carcajadas garantizadas. 📺')">📺 4. La Rosa de Guadalupe</button>
+        <h2>🎮 Prueba Arcade</h2>
+        <p class="sub-p" style="margin-top: 2px;">Junta <b>3 manzanas 🍎</b> con las flechas para avanzar:</p>
+        
+        <div class="snake-container">
+          <canvas id="snakeCanvas" width="220" height="170"></canvas>
+          
+          <div class="snake-controls">
+            <div class="arrow-btn" onclick="changeSnakeDir('UP')">▲</div>
+            <div class="control-row">
+              <div class="arrow-btn" onclick="changeSnakeDir('LEFT')">◄</div>
+              <div class="arrow-btn" onclick="changeSnakeDir('DOWN')">▼</div>
+              <div class="arrow-btn" onclick="changeSnakeDir('RIGHT')">►</div>
+            </div>
+          </div>
         </div>
-        <div id="trackDetail" style="margin-top: 12px; display: none; background: var(--soft-rose); padding: 12px; border-radius: 12px;">
-          <h4 id="trackTitle" style="color: var(--pink-primary); font-size: 14px;"></h4>
-          <p id="trackDesc" style="font-size: 12px; margin-top: 4px;"></p>
-        </div>
+        <p id="snakeStatus" style="font-size: 12px; text-align: center; color: var(--pink-primary); font-weight: bold; margin-top: 6px;">Manzanas: 0/3</p>
       </div>
       <div class="btn-group">
-        <button class="btn" onclick="goToCard('cardFinal')">Continuar al Gran Momento ❤️</button>
+        <button class="btn btn-outline" style="font-size: 12px; padding: 8px;" onclick="goToCard('cardMenu')">← Volver al menú</button>
       </div>
     </div>
 
@@ -622,16 +674,107 @@
       }
     }
 
-    /* MODO 3: PLAYLIST */
-    function startPlaylist() {
-      document.getElementById('trackDetail').style.display = 'none';
-      goToCard('cardPlaylist');
+    /* MODO 3: SNAKE GAME */
+    let canvas, ctx;
+    let snake = [];
+    let food = {};
+    let direction = 'RIGHT';
+    let nextDirection = 'RIGHT';
+    let applesEaten = 0;
+    let gameInterval;
+    const gridSize = 10;
+
+    function startSnake() {
+      goToCard('cardSnake');
+      setTimeout(() => {
+        canvas = document.getElementById('snakeCanvas');
+        ctx = canvas.getContext('2d');
+        snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
+        direction = 'RIGHT';
+        nextDirection = 'RIGHT';
+        applesEaten = 0;
+        document.getElementById('snakeStatus').innerText = "Manzanas: 0/3";
+        spawnFood();
+
+        if (gameInterval) clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, 140);
+      }, 300);
     }
 
-    function showTrack(title, desc) {
-      document.getElementById('trackTitle').innerText = title;
-      document.getElementById('trackDesc').innerText = desc;
-      document.getElementById('trackDetail').style.display = 'block';
+    function changeSnakeDir(dir) {
+      if (dir === 'UP' && direction !== 'DOWN') nextDirection = 'UP';
+      if (dir === 'DOWN' && direction !== 'UP') nextDirection = 'DOWN';
+      if (dir === 'LEFT' && direction !== 'RIGHT') nextDirection = 'LEFT';
+      if (dir === 'RIGHT' && direction !== 'LEFT') nextDirection = 'RIGHT';
+    }
+
+    function spawnFood() {
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / gridSize)),
+        y: Math.floor(Math.random() * (canvas.height / gridSize))
+      };
+    }
+
+    function gameLoop() {
+      direction = nextDirection;
+      const head = { ...snake[0] };
+
+      if (direction === 'UP') head.y--;
+      if (direction === 'DOWN') head.y++;
+      if (direction === 'LEFT') head.x--;
+      if (direction === 'RIGHT') head.x++;
+
+      const maxX = canvas.width / gridSize;
+      const maxY = canvas.height / gridSize;
+      if (head.x < 0) head.x = maxX - 1;
+      if (head.x >= maxX) head.x = 0;
+      if (head.y < 0) head.y = maxY - 1;
+      if (head.y >= maxY) head.y = 0;
+
+      for (let segment of snake) {
+        if (head.x === segment.x && head.y === segment.y) {
+          snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
+          direction = 'RIGHT';
+          nextDirection = 'RIGHT';
+          return;
+        }
+      }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        applesEaten++;
+        document.getElementById('snakeStatus').innerText = `Manzanas: ${applesEaten}/3`;
+        if (applesEaten >= 3) {
+          clearInterval(gameInterval);
+          document.getElementById('snakeStatus').innerText = "✨ ¡DESAFÍO SUPERADO! ✨";
+          confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+          setTimeout(() => {
+            goToCard('cardFinal');
+          }, 1000);
+          return;
+        }
+        spawnFood();
+      } else {
+        snake.pop();
+      }
+
+      drawGame();
+    }
+
+    function drawGame() {
+      ctx.fillStyle = '#2b2118';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#e8a598';
+      ctx.beginPath();
+      ctx.arc((food.x * gridSize) + 5, (food.y * gridSize) + 5, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      snake.forEach((seg, i) => {
+        ctx.fillStyle = i === 0 ? '#d4af37' : '#f4e3df';
+        ctx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2);
+      });
     }
 
     /* MODO 4: TIMELINE */
