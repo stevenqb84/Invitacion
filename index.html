@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Algo muy especial para ti... ❤️</title>
   
-  <!-- Canvas Confetti CDN (Librería ligera para el final) -->
+  <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -42,7 +42,7 @@
       position: relative;
     }
 
-    /* Animación sutil de lluvia para el fondo o pantallas */
+    /* Animación sutil de lluvia */
     .rain-container {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -68,7 +68,7 @@
     .scene {
       width: 100%;
       max-width: 380px;
-      height: 600px;
+      height: 620px;
       position: relative;
       overflow: hidden;
       border-radius: 24px;
@@ -85,7 +85,7 @@
       top: 0;
       left: 0;
       background-color: var(--card-bg);
-      padding: 28px 22px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -119,28 +119,49 @@
       font-weight: normal;
     }
 
-    h2 { font-size: 22px; margin-bottom: 8px; }
+    h2 { font-size: 22px; margin-bottom: 6px; }
     h3 { font-size: 18px; color: var(--pink-primary); }
 
     p {
-      font-size: 14.5px;
-      line-height: 1.6;
+      font-size: 14px;
+      line-height: 1.5;
       color: var(--dark-text);
       text-align: center;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .sub-p {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--subtext);
+    }
+
+    /* Contenedor de Imágenes con Marco Elegante */
+    .img-frame {
+      width: 100%;
+      max-height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 3px solid #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin: 12px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0e6df;
+    }
+
+    .img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     /* Botones */
     .btn-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
+      gap: 8px;
+      margin-top: 10px;
       width: 100%;
     }
 
@@ -148,7 +169,7 @@
       background-color: var(--pink-primary);
       color: white;
       border: none;
-      padding: 13px 18px;
+      padding: 12px 16px;
       border-radius: 14px;
       font-size: 14px;
       font-weight: 600;
@@ -180,7 +201,7 @@
     .mode-card {
       background: var(--soft-rose);
       border-radius: 16px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -194,44 +215,24 @@
       transform: scale(0.98);
     }
 
-    .mode-icon {
-      font-size: 28px;
-    }
-
-    .mode-info h4 {
-      font-size: 15px;
-      color: var(--dark-text);
-    }
-
-    .mode-info p {
-      font-size: 11.5px;
-      color: var(--subtext);
-      text-align: left;
-      margin-top: 2px;
-    }
-
-    /* Ilustración Sombrilla SVG */
-    .illustration {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin: 10px 0;
-    }
+    .mode-icon { font-size: 26px; }
+    .mode-info h4 { font-size: 14.5px; color: var(--dark-text); }
+    .mode-info p { font-size: 11px; color: var(--subtext); text-align: left; margin-top: 2px; }
 
     /* Lista Línea del Tiempo */
     .timeline {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       text-align: left;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .timeline-item {
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      font-size: 13px;
+      font-size: 12.5px;
       background: var(--soft-rose);
       padding: 10px 12px;
       border-radius: 12px;
@@ -240,7 +241,7 @@
     /* Pantalla Final Botones */
     .final-btns {
       position: relative;
-      height: 120px;
+      height: 110px;
       margin-top: 15px;
     }
 
@@ -266,7 +267,7 @@
       font-size: 11px;
       color: var(--subtext);
       text-align: center;
-      margin-top: 10px;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -279,10 +280,15 @@
 
     <!-- PORTADA INICIAL -->
     <div class="card active" id="cardHome">
-      <div style="text-align: center; margin-auto: 0;">
-        <div style="font-size: 50px; margin-bottom: 10px;">🌸</div>
+      <div style="text-align: center;">
+        <div style="font-size: 45px; margin-bottom: 8px;">🌸</div>
         <h2>Hola, amiga... ❤️</h2>
-        <p style="margin-top: 15px;">He preparado algo muy especial para ti. Un pequeño rincón para recordar todo lo que hemos compartido.</p>
+        <p style="margin-top: 10px;">He preparado algo muy especial para ti. Un pequeño rincón para recordar todo lo que hemos compartido.</p>
+        
+        <!-- Foto de Portada -->
+        <div class="img-frame">
+          <img src="Imagen1.png" alt="Foto juntas" onerror="this.onerror=null; this.src='Imagen1.jpg';">
+        </div>
       </div>
       <div class="btn-group">
         <button class="btn" onclick="goToCard('cardMenu')">Comenzar ✨</button>
@@ -293,9 +299,9 @@
     <div class="card" id="cardMenu">
       <div>
         <h2>Elige un camino</h2>
-        <p class="sub-p" style="margin-bottom: 15px;">¿Cómo quieres explorar nuestros recuerdos?</p>
+        <p class="sub-p" style="margin-bottom: 12px;">¿Cómo quieres explorar nuestros recuerdos?</p>
         
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
           <div class="mode-card" onclick="startNostalgia()">
             <div class="mode-icon">☔</div>
             <div class="mode-info">
@@ -354,15 +360,15 @@
       <div>
         <h2>🎵 Nuestra Playlist</h2>
         <p class="sub-p">Cada track guarda un recuerdo importante.</p>
-        <div class="btn-group" style="margin-top: 15px;" id="playlistTracklist">
+        <div class="btn-group" style="margin-top: 12px;" id="playlistTracklist">
           <button class="btn btn-outline" onclick="showTrack('Cas con Sal', 'Toda gran amistad tiene una canción especial. La nuestra siempre será Cas con Sal 🎵')">🎵 1. Cas con Sal</button>
           <button class="choice-btn" onclick="showTrack('Día de Lluvia', 'Aquel día en que compartimos sombrilla bajo el aguacero y nació este dibujo. ☔')">☔ 2. Día de lluvia</button>
           <button class="choice-btn" onclick="showTrack('Empanadas', 'Comer empanadas mientras nos reíamos de cualquier cosa. 🥟')">🥟 3. Tardes de empanadas</button>
           <button class="choice-btn" onclick="showTrack('La Rosa de Guadalupe', 'Incontables capítulos vistos juntas y carcajadas garantizadas. 📺')">📺 4. La Rosa de Guadalupe</button>
         </div>
-        <div id="trackDetail" style="margin-top: 15px; display: none; background: var(--soft-rose); padding: 12px; border-radius: 12px;">
+        <div id="trackDetail" style="margin-top: 12px; display: none; background: var(--soft-rose); padding: 12px; border-radius: 12px;">
           <h4 id="trackTitle" style="color: var(--pink-primary); font-size: 14px;"></h4>
-          <p id="trackDesc" style="font-size: 12.5px; margin-top: 4px;"></p>
+          <p id="trackDesc" style="font-size: 12px; margin-top: 4px;"></p>
         </div>
       </div>
       <div class="btn-group">
@@ -392,15 +398,15 @@
     <!-- PANTALLA FINAL (COMÚN) -->
     <div class="card" id="cardFinal">
       <div>
-        <div style="font-size: 40px; text-align: center;">💐</div>
+        <div style="font-size: 35px; text-align: center;">💐</div>
         <h2>Una pregunta importante...</h2>
-        <p style="margin-top: 10px; font-size: 13.5px;">
+        <p style="margin-top: 8px; font-size: 13px;">
           Después de tantos años y de compartir momentos tan increíbles, estoy por vivir uno de los días más especiales de mi vida.
         </p>
-        <p style="margin-top: 8px; font-weight: bold; color: var(--pink-primary); font-size: 15px;">
+        <p style="margin-top: 6px; font-weight: bold; color: var(--pink-primary); font-size: 14.5px;">
           No puedo imaginar mi boda sin ti a mi lado.
         </p>
-        <h3 style="margin-top: 15px; font-size: 20px; text-align: center;">¿Aceptas ser mi madrina de boda?</h3>
+        <h3 style="margin-top: 12px; font-size: 19px; text-align: center;">¿Aceptas ser mi madrina de boda?</h3>
 
         <div class="final-btns">
           <button class="btn" id="yesBtn" onclick="acceptProposal()">❤️ ¡Sí, acepto!</button>
@@ -413,13 +419,13 @@
 
     <!-- PANTALLA CELEBRACIÓN -->
     <div class="card" id="cardAccepted">
-      <div style="text-align: center; margin-auto: 0;">
-        <div style="font-size: 60px; margin-bottom: 10px;">🎉💖</div>
+      <div style="text-align: center;">
+        <div style="font-size: 55px; margin-bottom: 8px;">🎉💖</div>
         <h2>¡SABÍA QUE DIRÍAS QUE SÍ!</h2>
-        <p style="margin-top: 15px; font-size: 14px;">
+        <p style="margin-top: 10px; font-size: 13.5px;">
           ¡Gracias por acompañarme durante más de 10 años y por estar a mi lado en este gran día!
         </p>
-        <p style="margin-top: 10px; font-weight: bold; color: var(--pink-primary);">
+        <p style="margin-top: 8px; font-weight: bold; color: var(--pink-primary);">
           Te quiero muchísimo ❤️
         </p>
       </div>
@@ -437,7 +443,6 @@
       const current = document.getElementById(activeCardId);
       const next = document.getElementById(targetId);
 
-      // Desactivar lluvia si salimos de nostalgia
       if (targetId !== 'cardNostalgia') {
         document.getElementById('rainContainer').style.display = 'none';
       }
@@ -461,7 +466,7 @@
       {
         title: "Todo comenzó aquí",
         text: "Nos conocimos en el colegio. Sin saberlo, ese lugar nos regalaría una amistad de más de diez años.",
-        icon: "🏫"
+        imgSrc: "Imagen1.png"
       },
       {
         title: "Un día de lluvia ☔",
@@ -482,7 +487,7 @@
       {
         title: "Nuestro dibujo ✏️",
         text: "Tanto nos gustó aquel día compartiendo sombrilla que hasta lo dibujamos para guardarlo para siempre.",
-        svg: true
+        imgSrc: "imagen2.png"
       },
       {
         title: "Más de diez años después...",
@@ -502,7 +507,6 @@
       const content = document.getElementById('nostalgiaContent');
       const rain = document.getElementById('rainContainer');
 
-      // Control de lluvia
       if (data.rain) {
         rain.style.display = 'block';
         createRain();
@@ -511,21 +515,13 @@
       }
 
       let html = `<div style="text-align:center;">`;
-      if (data.icon) html += `<div style="font-size:40px; margin-bottom:10px;">${data.icon}</div>`;
-      html += `<h2>${data.title}</h2><p style="margin-top:12px;">${data.text}</p>`;
+      if (data.icon) html += `<div style="font-size:40px; margin-bottom:6px;">${data.icon}</div>`;
+      html += `<h2>${data.title}</h2><p style="margin-top:8px;">${data.text}</p>`;
 
-      if (data.svg) {
+      if (data.imgSrc) {
         html += `
-          <div class="illustration">
-            <svg width="140" height="120" viewBox="0 0 100 100">
-              <!-- Sombrilla simple dibujada -->
-              <path d="M 10 50 Q 50 10 90 50 Z" fill="#e8a598" stroke="#4a3b32" stroke-width="3"/>
-              <line x1="50" y1="50" x2="50" y2="85" stroke="#4a3b32" stroke-width="3"/>
-              <path d="M 50 85 Q 42 95 35 85" fill="none" stroke="#4a3b32" stroke-width="3"/>
-              <!-- Dos figuras amicales -->
-              <circle cx="38" cy="65" r="6" fill="#8c7a6b"/>
-              <circle cx="62" cy="65" r="6" fill="#8c7a6b"/>
-            </svg>
+          <div class="img-frame">
+            <img src="${data.imgSrc}" alt="Recuerdo" onerror="this.onerror=null; this.src='${data.imgSrc.replace('.png', '.jpg')}';">
           </div>
         `;
       }
@@ -594,8 +590,8 @@
         let html = `
           <div>
             <h2>Pregunta ${quizStep + 1} de 3</h2>
-            <p style="margin-top:15px; font-weight:bold;">${q.q}</p>
-            <div class="btn-group" style="margin-top:20px;">
+            <p style="margin-top:12px; font-weight:bold;">${q.q}</p>
+            <div class="btn-group" style="margin-top:15px;">
         `;
         q.options.forEach((opt, idx) => {
           html += `<button class="btn btn-outline" onclick="answerQuiz(${idx})">${opt}</button>`;
@@ -605,10 +601,10 @@
       } else {
         container.innerHTML = `
           <div style="text-align:center;">
-            <div style="font-size:50px;">💯</div>
+            <div style="font-size:45px;">💯</div>
             <h2>¡Resultado: 100%!</h2>
-            <p style="margin-top:10px;">Compatibilidad total para ser mi madrina de boda ❤️</p>
-            <div class="btn-group" style="margin-top:30px;">
+            <p style="margin-top:8px;">Compatibilidad total para ser mi madrina de boda ❤️</p>
+            <div class="btn-group" style="margin-top:20px;">
               <button class="btn" onclick="goToCard('cardFinal')">Continuar ✨</button>
             </div>
           </div>
@@ -657,7 +653,6 @@
       const btn = document.getElementById('noBtn');
       const warning = document.getElementById('noWarning');
 
-      // Movimiento aleatorio dentro de su contenedor
       const randomX = (Math.random() - 0.5) * 120;
       const randomY = (Math.random() - 0.5) * 80;
 
