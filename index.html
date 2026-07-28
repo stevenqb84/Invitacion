@@ -71,14 +71,13 @@
     .scene {
       width: 100%;
       max-width: 380px;
-      height: 620px;
+      height: 640px;
       position: relative;
       overflow: hidden;
       border-radius: 28px;
       box-shadow: 0 18px 35px rgba(200, 80, 110, 0.25);
       border: 4px solid #fff;
       background-color: #fbebee;
-      /* Fondo con patrón ondulado suave */
       background-image: 
         radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
         repeating-radial-gradient(circle at 0 0, #fce4ed 0, #fce4ed 20px, #f8d3e2 20px, #f8d3e2 40px);
@@ -91,7 +90,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      padding: 24px 20px;
+      padding: 20px 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -184,6 +183,33 @@
       margin-top: 10px;
     }
 
+    /* Contenedor Embed de Canva */
+    .canva-embed-wrapper {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-top: 100.0000%;
+      padding-bottom: 0;
+      box-shadow: 0 4px 12px rgba(63,69,81,0.16);
+      margin-top: 0.8em;
+      margin-bottom: 0.5em;
+      overflow: hidden;
+      border-radius: 12px;
+      will-change: transform;
+      border: 2px solid #fff;
+    }
+
+    .canva-embed-wrapper iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
     /* Marcos de Foto */
     .img-frame {
       width: 100%;
@@ -250,21 +276,6 @@
       box-shadow: 0px 0px 0px #2c2543;
     }
 
-    /* Elementos Decorativos Flotantes */
-    .deco-flower-top {
-      position: absolute;
-      top: -10px; right: -10px;
-      font-size: 55px;
-      pointer-events: none;
-    }
-
-    .deco-flower-bottom {
-      position: absolute;
-      bottom: -10px; left: -10px;
-      font-size: 50px;
-      pointer-events: none;
-    }
-
     .timeline-item {
       background: #ffffffc2;
       border: 2px solid var(--subtext-red);
@@ -313,47 +324,37 @@
 
   <div class="scene">
 
-    <!-- PANTALLA 1: PORTADA RETRO (REPLICANDO IMAGEN 1) -->
+    <!-- PANTALLA 1: PORTADA CON DISEÑO CANVA INTEGRADO -->
     <div class="card active" id="cardHome">
-      <div class="deco-flower-top">🌸</div>
-      <div style="margin-top: 15px;">
-        <p class="title-retro-caps" style="font-size: 20px;">HOLA, NAI</p>
-        <p class="title-retro-caps" style="margin-top: 15px; font-size: 15px;">TU AMISTAD ES UNA</p>
-        
-        <h1 class="title-script">Curita</h1>
-        
-        <p class="title-retro-caps" style="font-size: 15px; margin-bottom: 10px;">AL CORAZÓN</p>
-        
-        <!-- Foto principal de portada -->
-        <div class="img-frame">
-          <img src="Imagen1.jpeg" alt="Foto juntas" onerror="this.onerror=null; this.src='Imagen1.jpg';">
+      <div>
+        <!-- Embed de Canva -->
+        <div class="canva-embed-wrapper">
+          <iframe loading="lazy" src="https://www.canva.com/design/DAHQQ8BedMM/eLTm6WwDxNkUE-4rp2BEnw/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
         </div>
       </div>
 
-      <div>
+      <div style="margin-top: 10px;">
         <button class="btn-retro" onclick="goToCard('cardMenu')">Comenzar ✨</button>
       </div>
-      <div class="deco-flower-bottom">🌼</div>
     </div>
 
-    <!-- PANTALLA 2: MENÚ DE MODOS (REPLICANDO IMAGEN 2) -->
+    <!-- PANTALLA 2: MENÚ DE MODOS -->
     <div class="card" id="cardMenu">
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 15px;">
         <p class="title-retro-caps" style="font-size: 20px;">JUGUEMOS ALGO.</p>
         <p class="title-retro-caps" style="font-size: 14px; margin-top: 6px;">ELEGÍ UNA OPCIÓN PARA CONTINUAR</p>
       </div>
 
-      <div class="btn-group" style="margin-top: 20px;">
+      <div class="btn-group" style="margin-top: 15px;">
         <button class="btn-retro" onclick="startNostalgia()">MODO NOSTALGIA</button>
         <button class="btn-retro" onclick="startQuiz()">MODO QUIZ</button>
         <button class="btn-retro" onclick="startSnake()">MODO GAMER</button>
         <button class="btn-retro" onclick="startTimeline()">LÍNEA DE TIEMPO</button>
       </div>
 
-      <div style="margin-bottom: 10px;">
+      <div style="margin-bottom: 5px;">
         <p class="footer-note">(Después lo volvés a intentar para chismear el resto)</p>
       </div>
-      <div class="deco-flower-bottom">🍒</div>
     </div>
 
     <!-- MODO 1: NOSTALGIA -->
@@ -414,9 +415,8 @@
       </div>
     </div>
 
-    <!-- PANTALLA FINAL (REPLICANDO IMAGEN 3) -->
+    <!-- PANTALLA FINAL -->
     <div class="card" id="cardFinal">
-      <div class="deco-flower-top">🌸</div>
       <div style="margin-top: 20px;">
         <p class="title-retro-caps" style="font-size: 18px;">UNA PREGUNTA IMPORTANTE</p>
         
@@ -432,7 +432,6 @@
         </div>
         <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 10px;"></p>
       </div>
-      <div class="deco-flower-bottom">☔</div>
     </div>
 
     <!-- PANTALLA CELEBRACIÓN -->
