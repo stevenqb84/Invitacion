@@ -8,7 +8,7 @@
   <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <!-- Google Fonts: Fuentes Retro y Cursiva Groovy -->
+  <!-- Google Fonts: Fuentes Retro -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Paytone+One&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
@@ -67,7 +67,7 @@
       to { transform: translateY(620px); }
     }
 
-    /* Escenario MÓVIL con Patrón de Ajedrez Ondulado Retro */
+    /* Escenario MÓVIL */
     .scene {
       width: 100%;
       max-width: 380px;
@@ -78,9 +78,6 @@
       box-shadow: 0 18px 35px rgba(200, 80, 110, 0.25);
       border: 4px solid #fff;
       background-color: #fbebee;
-      background-image: 
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
-        repeating-radial-gradient(circle at 0 0, #fce4ed 0, #fce4ed 20px, #f8d3e2 20px, #f8d3e2 40px);
     }
 
     /* Tarjetas que se deslizan */
@@ -103,6 +100,13 @@
       text-align: center;
     }
 
+    /* Portada Fullscreen */
+    .card-cover {
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative;
+    }
+
     .card.active {
       opacity: 1;
       pointer-events: auto;
@@ -117,7 +121,34 @@
       z-index: 1;
     }
 
-    /* Estilos de Tipografías Retro */
+    /* Contenedor Canva Full-Size */
+    .canva-full-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .canva-full-container iframe {
+      width: 100%;
+      height: 112%; /* Se amplía ligeramente para ocultar la barra gris de Canva */
+      margin-top: -6%;
+      border: none;
+      pointer-events: auto;
+    }
+
+    /* Botón Flotante Sobre Canva */
+    .cover-btn-overlay {
+      position: absolute;
+      bottom: 25px;
+      left: 20px;
+      right: 20px;
+      z-index: 5;
+    }
+
+    /* Tipografías y Botones Retro */
     .title-retro-caps {
       font-family: 'Paytone One', sans-serif;
       color: var(--subtext-red);
@@ -125,15 +156,6 @@
       font-size: 18px;
       text-transform: uppercase;
       line-height: 1.3;
-    }
-
-    .title-script {
-      font-family: 'Pacifico', cursive;
-      color: #f26d95;
-      font-size: 42px;
-      text-shadow: 3px 3px 0px #fff, 5px 5px 0px #e85a71;
-      margin: 4px 0;
-      line-height: 1.2;
     }
 
     .title-script-small {
@@ -152,7 +174,6 @@
       line-height: 1.5;
     }
 
-    /* Botones Morados Lavanda Retro con Sombra Fuerte */
     .btn-retro {
       background-color: var(--purple-btn);
       color: var(--subtext-red);
@@ -162,12 +183,11 @@
       text-transform: uppercase;
       padding: 14px 18px;
       border: 2px solid #2c2543;
-      border-radius: 4px;
+      border-radius: 6px;
       box-shadow: 4px 4px 0px #2c2543;
       cursor: pointer;
       transition: all 0.15s ease;
       width: 100%;
-      margin-bottom: 6px;
     }
 
     .btn-retro:active {
@@ -181,33 +201,6 @@
       gap: 10px;
       width: 100%;
       margin-top: 10px;
-    }
-
-    /* Contenedor Embed de Canva */
-    .canva-embed-wrapper {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding-top: 100.0000%;
-      padding-bottom: 0;
-      box-shadow: 0 4px 12px rgba(63,69,81,0.16);
-      margin-top: 0.8em;
-      margin-bottom: 0.5em;
-      overflow: hidden;
-      border-radius: 12px;
-      will-change: transform;
-      border: 2px solid #fff;
-    }
-
-    .canva-embed-wrapper iframe {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      border: none;
-      padding: 0;
-      margin: 0;
     }
 
     /* Marcos de Foto */
@@ -232,7 +225,7 @@
       display: block;
     }
 
-    /* Minijuego Snake Estilo Retro */
+    /* Minijuego Snake */
     .snake-container {
       display: flex;
       flex-direction: column;
@@ -324,16 +317,14 @@
 
   <div class="scene">
 
-    <!-- PANTALLA 1: PORTADA CON DISEÑO CANVA INTEGRADO -->
-    <div class="card active" id="cardHome">
-      <div>
-        <!-- Embed de Canva -->
-        <div class="canva-embed-wrapper">
-          <iframe loading="lazy" src="https://www.canva.com/design/DAHQQ8BedMM/eLTm6WwDxNkUE-4rp2BEnw/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
-        </div>
+    <!-- PANTALLA 1: PORTADA COMPLETA DE CANVA -->
+    <div class="card card-cover active" id="cardHome">
+      <div class="canva-full-container">
+        <iframe loading="lazy" src="https://www.canva.com/design/DAHQQ8BedMM/eLTm6WwDxNkUE-4rp2BEnw/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
       </div>
 
-      <div style="margin-top: 10px;">
+      <!-- Botón Flotante -->
+      <div class="cover-btn-overlay">
         <button class="btn-retro" onclick="goToCard('cardMenu')">Comenzar ✨</button>
       </div>
     </div>
